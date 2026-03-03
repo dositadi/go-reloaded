@@ -9,6 +9,6 @@ func StringsToSliceOfWords(input string) []string {
 		return nil
 	}
 
-	result := strings.Split(input, " ")
-	return result
+	output := strings.Fields(input)
+	return output
 }

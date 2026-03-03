@@ -2,6 +2,8 @@ package main
 
 import (
 	c "edit-tool/internal/config"
+	h "edit-tool/pkg/utils"
+	"fmt"
 )
 
 func main() {
@@ -9,8 +11,11 @@ func main() {
 
 	app.Run()
 
-	/* name := "Divine"
-	//act, val, _ := h.SplitAndGetIndices("(low, 2)")
+	val := ",and"
 
-	fmt.Println(act, val) */
+	val2 := "pro"
+
+	fmt.Println(h.ContainsPunctuation("boring"), val)
+	h.AppendChar(&val2, ',')
+	fmt.Println(val2)
 }
