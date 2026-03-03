@@ -2,8 +2,6 @@ package main
 
 import (
 	c "edit-tool/internal/config"
-	h "edit-tool/pkg/utils"
-	"fmt"
 )
 
 func main() {
@@ -11,8 +9,8 @@ func main() {
 
 	app.Run()
 
-	name := "divine"
-	h.CapIndices("understanding", 6)
+	/* name := "Divine"
+	//act, val, _ := h.SplitAndGetIndices("(low, 2)")
 
-	fmt.Println(name)
+	fmt.Println(act, val) */
 }
