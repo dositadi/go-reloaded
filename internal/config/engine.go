@@ -56,9 +56,9 @@ func (e *EngineWorker) DoItTillComplete(input []string) []string {
 
 	outPut2 := e.Worker.StringBinHexManipulator(output1)
 
-	outPut3 := e.Worker.PuntuationMarkManipulator(outPut2)
+	outPut3 := e.Worker.SingleAndGroupOfPunctuationManipulator(outPut2)
 
-	outPut4 := e.Worker.SingleAndGroupOfPunctuationManipulator(outPut3)
+	outPut4 := e.Worker.PuntuationMarkManipulator(outPut3)
 
 	if slices.Compare(outPut4, OutputBuffer) == 0 {
 		OutputBuffer = []string{}
