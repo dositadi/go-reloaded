@@ -1,9 +1,5 @@
 package utils
 
-import (
-	"fmt"
-)
-
 func NotePMIndices(input []string) [][]int {
 	var subIndice []int
 	var outPut [][]int
@@ -19,7 +15,7 @@ func NotePMIndices(input []string) [][]int {
 	return outPut
 }
 
-func FixPunctMarks(input []string, indices [][]int) {
+func FixPunctMarks(input []string, indices [][]int) []string {
 	clean := input
 	indexLen := len(indices)
 	inputLen := len(input)
@@ -36,8 +32,6 @@ func FixPunctMarks(input []string, indices [][]int) {
 		} else if second-first > 2 {
 			firstMid, secondMid = GetIndexForMultipleMid(first, second)
 		}
-
-		fmt.Println(index)
 
 		for i := inputLen - 1; i >= 1; i-- {
 			if second-first == 2 {
@@ -65,9 +59,7 @@ func FixPunctMarks(input []string, indices [][]int) {
 			output = append(output, clean[i])
 		}
 	}
-
-	fmt.Println(clean)
-	fmt.Println(output)
+	return output
 }
 
 func GetIndex(second int) int {

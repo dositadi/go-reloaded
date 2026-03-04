@@ -54,6 +54,7 @@ func (e *EngineWorker) Work(filePath string) {
 	}
 }
 
+// Helper function that cordinates the editing work.
 func (e *EngineWorker) DoAllWork() {
 	for _, filepath := range e.FilePaths {
 		e.Work(filepath)

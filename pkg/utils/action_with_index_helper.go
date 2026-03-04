@@ -2,52 +2,52 @@ package utils
 
 import (
 	m "edit-tool/pkg/models"
-	"fmt"
+	"slices"
 	"strconv"
 	"strings"
 )
 
-func MergeActionSeparatedWithSpaces(input []string) {
+// This function cleans the input array for use.
+func MergeActionSeparatedWithSpaces(input []string) []string {
 	output := input
 	length := len(input)
 
 	for i := length - 1; i >= 1; i-- {
-		if strings.Contains(input[i], ")") {
+		if CheckChar(input[i], ')') && CheckChar(input[i-1], '(') {
 			Merge(&output[i-1], output[i-1], output[i])
+			output = slices.Delete(output, i, i+1)
 		}
 	}
 
-	fmt.Println(output)
+	return output
 }
 
+// This function checks a string if it has a specific char
+func CheckChar(input string, char rune) bool {
+	temp := []rune(input)
+
+	for _, rn := range temp {
+		if rn == char {
+			return true
+		}
+	}
+	return false
+}
+
+// This function merges two strings and stores the output in input
 func Merge(input *string, first, second string) {
 	temp := first + second
 
 	*input = temp
 }
 
-// Helper function to convert strings in lower case to upper case
-func ToUpperIndices(inputs []string) {
-	for i := range inputs {
-		ToUpper(&inputs[i])
-	}
-	fmt.Println(inputs)
-}
-
-// Helper function to convert strings to lowercase
-func ToLowerIndices(inputs []string) {
-	for i := range inputs {
-		ToLower(&inputs[i])
-	}
-	fmt.Println(inputs)
-}
-
 // Helper function to convert characters of a string to lowercase
 func CapIndices(input *string, indices int) {
+	temp := *input
 	for i := range indices {
-		Cap(input, i)
+		Cap(&temp, i)
 	}
-	fmt.Println(input)
+	*input = temp
 }
 
 // Function to check for strings that follow the pattern (low,2), (up,6),(cap,4)
