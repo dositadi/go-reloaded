@@ -45,7 +45,16 @@ func (w *Worker) ActionWithIndex(input []string) []string {
 				}
 				output = slices.Delete(output, i, i+1)
 			case "cap":
-				h.CapIndices(&output[i-1], num)
+				start := i - num
+
+				for j := 0; j < len(corrected); j++ {
+					if j >= start && j < i {
+						h.Cap(&output[j], 0)
+					}
+					if j == i {
+						break
+					}
+				}
 				output = slices.Delete(output, i, i+1)
 			}
 		}

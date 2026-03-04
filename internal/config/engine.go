@@ -3,6 +3,7 @@ package config
 import (
 	m "edit-tool/pkg/models"
 	h "edit-tool/pkg/utils"
+	"slices"
 )
 
 type Engine interface {
@@ -12,7 +13,7 @@ type Engine interface {
 	SingleAndGroupOfPunctuationManipulator(input []string) []string // Function to solve the single puntuations problem --> done
 	PuntuationMarkManipulator(input []string) []string              // Function to handle the puntuation mark problem --> done
 	VowelManipulator(input []string) []string                       // Function to handle the vowel manipulation problem --> done
-	WriteResult(output []string, filename string) *m.Error              // Function to write to the output file -->
+	WriteResult(output []string, filename string) *m.Error          // Function to write to the output file -->
 }
 
 // The EngineWorker struct produce an object (worker) of type Engine (that implements all the methods in the Engine interface)
@@ -39,7 +40,19 @@ func (e *EngineWorker) Work(filePath string) {
 		return
 	}
 
-	output1 := e.Worker.ActionWithIndex(fileContent)
+	outPut1 := e.DoItTillComplete(fileContent)
+
+	err2 := e.Worker.WriteResult(outPut1, e.ResultFile)
+	if err2 != nil {
+		h.PrintErrorMessage(*err2)
+		return
+	}
+}
+
+var OutputBuffer []string
+
+func (e *EngineWorker) DoItTillComplete(input []string) []string {
+	output1 := e.Worker.ActionWithIndex(input)
 
 	outPut2 := e.Worker.StringBinHexManipulator(output1)
 
@@ -47,12 +60,15 @@ func (e *EngineWorker) Work(filePath string) {
 
 	outPut4 := e.Worker.SingleAndGroupOfPunctuationManipulator(outPut3)
 
-	outPut5 := e.Worker.VowelManipulator(outPut4)
+	if slices.Compare(outPut4, OutputBuffer) == 0 {
+		OutputBuffer = []string{}
+		return outPut4
+	} else {
+		outPut5 := e.Worker.VowelManipulator(outPut4)
 
-	err2 := e.Worker.WriteResult(outPut5, e.ResultFile)
-	if err2 != nil {
-		h.PrintErrorMessage(*err2)
-		return
+		OutputBuffer = outPut5
+
+		return e.DoItTillComplete(outPut5)
 	}
 }
 
