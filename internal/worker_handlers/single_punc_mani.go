@@ -20,14 +20,16 @@ func (w *Worker) SingleAndGroupOfPunctuationManipulator(input []string) []string
 				punctuation := h.GetCharAndDeleteChar(&output[i], 0)
 				h.AppendChar(&output[i-1], punctuation)
 				output = slices.Delete(output, i, i+1)
+				continue
 			}
 		}
 
-		if len(currentWord) > 2 {
+		if len(currentWord) >= 2 {
 			// Check for group of punctuations
 			if h.IsPunctuation(currentWord) {
 				h.AppendChars(&output[i-1], currentWord)
 				output = slices.Delete(output, i, i+1)
+				continue
 			}
 			// Check for words with punctuations in the first index
 			if h.ContainsPunctuation(currentWord) {
@@ -37,6 +39,7 @@ func (w *Worker) SingleAndGroupOfPunctuationManipulator(input []string) []string
 						h.AppendChar(&output[i-1], punctuation)
 					}
 				}
+				continue
 			}
 		}
 	}

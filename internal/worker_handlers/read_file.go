@@ -3,7 +3,6 @@ package workerhandlers
 import (
 	m "edit-tool/pkg/models"
 	h "edit-tool/pkg/utils"
-	"fmt"
 	"os"
 )
 
@@ -46,6 +45,5 @@ func (w *Worker) ReadFile(filepath string) ([]string, *m.Error) {
 		}
 	}
 	result := h.StringsToSliceOfWords(string(fileBuffer)) // Convert the file content into a slice of words
-	fmt.Println(result, " ", len(result))
 	return result, nil
 }

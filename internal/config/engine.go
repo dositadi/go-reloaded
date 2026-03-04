@@ -12,20 +12,22 @@ type Engine interface {
 	SingleAndGroupOfPunctuationManipulator(input []string) []string // Function to solve the single puntuations problem --> done
 	PuntuationMarkManipulator(input []string) []string              // Function to handle the puntuation mark problem --> done
 	VowelManipulator(input []string) []string                       // Function to handle the vowel manipulation problem --> done
-	WriteResult(output []string) *m.Error                           // Function to write to the output file -->
+	WriteResult(output []string, filename string) *m.Error              // Function to write to the output file -->
 }
 
 // The EngineWorker struct produce an object (worker) of type Engine (that implements all the methods in the Engine interface)
 type EngineWorker struct {
-	Worker    Engine
-	FilePaths []string
+	Worker     Engine
+	FilePath   string
+	ResultFile string
 }
 
 // A constructor to create  new engine worker
-func CreateNewEngineWorker(worker Engine, filePaths []string) *EngineWorker {
+func CreateNewEngineWorker(worker Engine, filePaths string, resultFile string) *EngineWorker {
 	return &EngineWorker{
-		Worker:    worker,
-		FilePaths: filePaths,
+		Worker:     worker,
+		FilePath:   filePaths,
+		ResultFile: resultFile,
 	}
 }
 
@@ -47,7 +49,7 @@ func (e *EngineWorker) Work(filePath string) {
 
 	outPut5 := e.Worker.VowelManipulator(outPut4)
 
-	err2 := e.Worker.WriteResult(outPut5)
+	err2 := e.Worker.WriteResult(outPut5, e.ResultFile)
 	if err2 != nil {
 		h.PrintErrorMessage(*err2)
 		return
@@ -56,7 +58,5 @@ func (e *EngineWorker) Work(filePath string) {
 
 // Helper function that cordinates the editing work.
 func (e *EngineWorker) DoAllWork() {
-	for _, filepath := range e.FilePaths {
-		e.Work(filepath)
-	}
+	e.Work(e.FilePath)
 }

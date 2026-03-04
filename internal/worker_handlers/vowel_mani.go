@@ -2,7 +2,6 @@ package workerhandlers
 
 import (
 	h "edit-tool/pkg/utils"
-	"fmt"
 	"strings"
 	"unicode"
 )
@@ -24,6 +23,5 @@ func (w *Worker) VowelManipulator(input []string) []string {
 			}
 		}
 	}
-	fmt.Println(output)
 	return output
 }
