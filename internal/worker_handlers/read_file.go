@@ -17,6 +17,8 @@ func (w *Worker) ReadFile(filepath string) ([]string, *m.Error) {
 		}
 	}
 
+	defer file.Close()
+
 	fileStat, err2 := file.Stat() // Get the file stat information
 	if err2 != nil {
 		return nil, &m.Error{

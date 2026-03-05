@@ -18,6 +18,8 @@ func (w *Worker) WriteResult(input []string, filename string) *m.Error {
 		}
 	}
 
+	defer file.Close()
+
 	for i, word := range input {
 		if i != len(input)-1 {
 			_, err := file.WriteString(word + " ")
